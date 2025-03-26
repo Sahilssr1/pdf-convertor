@@ -1,0 +1,98 @@
+using System;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
+namespace PDFconvertor.PDF
+{
+    public partial class compressPdf : System.Web.UI.Page
+    {
+        protected void btnCompress_Click(object sender, EventArgs e)
+        {
+            if (!fileUpload.HasFile)
+            {
+                lblMessage.Text = "❌ Please upload a PDF file.";
+                lblMessage.CssClass = "error";
+                return;
+            }
+
+            try
+            {
+                // Create Uploads directory if not exists
+                string uploadPath = Server.MapPath("~/Uploads/");
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
+
+                // Save uploaded file
+                string inputPdfPath = Path.Combine(uploadPath, fileUpload.FileName);
+                fileUpload.SaveAs(inputPdfPath);
+
+                // Output file path
+                string compressedPdfPath = Path.Combine(uploadPath, "Compressed_" + fileUpload.FileName);
+
+                // Compress PDF
+                CompressPDF(inputPdfPath, compressedPdfPath);
+
+                // Success message with download link
+                lblMessage.Text = "✅ PDF compressed successfully! <br>";
+                lblMessage.Text += $"<a href='/Uploads/{Path.GetFileName(compressedPdfPath)}' target='_blank'>📄 Download Compressed PDF</a>";
+                lblMessage.CssClass = "success";
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "❌ Error: " + ex.Message;
+                lblMessage.CssClass = "error";
+            }
+        }
+
+        private void CompressPDF(string inputPath, string outputPath)
+        {
+            using (PdfReader reader = new PdfReader(inputPath))
+            {
+                using (FileStream fs = new FileStream(outputPath, FileMode.Create))
+                {
+                    using (Document document = new Document())
+                    {
+                        PdfStamper stamper = new PdfStamper(reader, fs);
+                        stamper.Writer.SetPdfVersion(PdfWriter.PDF_VERSION_1_5);
+
+                        // ✅ Reduce Image Quality
+                        int totalPages = reader.NumberOfPages;
+                        for (int i = 1; i <= totalPages; i++)
+                        {
+                            PdfDictionary pageDict = reader.GetPageN(i);
+                            PdfObject resources = pageDict.Get(PdfName.RESOURCES);
+                            PdfDictionary resDict = (PdfDictionary)PdfReader.GetPdfObject(resources);
+                            PdfDictionary xObjectDict = (PdfDictionary)PdfReader.GetPdfObject(resDict.Get(PdfName.XOBJECT));
+
+                            if (xObjectDict != null)
+                            {
+                                foreach (PdfName name in xObjectDict.Keys)
+                                {
+                                    PdfObject obj = xObjectDict.Get(name);
+                                    if (obj.IsIndirect())
+                                    {
+                                        PdfDictionary imgDict = (PdfDictionary)PdfReader.GetPdfObject(obj);
+                                        if (imgDict.Get(PdfName.SUBTYPE).Equals(PdfName.IMAGE))
+                                        {
+                                            imgDict.Put(PdfName.FILTER, PdfName.DCTDECODE); // Use JPEG compression
+                                            imgDict.Put(PdfName.DECODEPARMS, new PdfDictionary());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // ✅ Set compression level
+                        stamper.Writer.SetPdfVersion(PdfWriter.PDF_VERSION_1_5);
+                        stamper.Writer.CompressionLevel = PdfStream.BEST_COMPRESSION;
+                        stamper.SetFullCompression();
+                        stamper.Close();
+                    }
+                }
+            }
+        }
+    }
+}
