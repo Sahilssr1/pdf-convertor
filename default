@@ -1,0 +1,351 @@
+<%@ Page Title="" Language="C#" MasterPageFile="~/PDF/PDF.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="PDFconvertor.PDF._default" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Header Styles */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Grid Styles */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card .icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.new {
+    background-color: #ff4d4d;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .header p {
+        font-size: 1rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+    </asp:Content>
+    <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="container">
+      <!-- Header Section -->
+      <header class="header">
+            <h1>Every tool you need to work with PDFs in one place</h1>
+            <p>Every split, compress, convert, rotate, unlock, watermark 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock, watermark PDFs with just a few clicks.</p>
+      </header>
+
+     <%--   Merge PDF--%>
+     <!-- Grid Section -->
+      <div class="grid">
+      <!-- Merge PDF Card (Now Clickable) -->
+      <div class="card" onclick="redirectToMerge()">
+       <div class="icon">📜</div>
+       <h3>Merge PDF</h3>
+        <p>Combine PDFs in the order you want with the easiest PDF merger available.</p>
+      </div>
+      </div>
+
+     <!-- JavaScript Function for Redirection -->
+     <script>
+     function redirectToMerge() {
+        window.location.href = 'mergePdf.aspx';
+       }
+     </script>
+    <%--   Merge PDF--%>
+
+      <%--  Split PDF--%>
+          <div class="card" onclick="redirectToSplit()">
+          <div class="icon">✂️</div>
+           <h3>Split PDF</h3>
+             <p>Split one page or a whole set for easy conversion into independent PDF files.</p>
+         </div>
+
+      <!-- JavaScript Function for Redirection -->
+      <script>
+      function redirectToSplit() {
+        window.location.href = 'splitPdf.aspx';
+       }
+      </script>
+      <%--  Split PDF--%>
+
+      <%-- Compress PDF--%>
+      <div class="card" onclick="redirectTocompress()">
+      <div class="icon">📏</div>
+      <h3>Compress PDF</h3>
+      <p>Reduce file size while optimizing for maximal quality.</p>
+      </div>
+
+      <script>
+      function redirectTocompress() {
+        window.location.href = 'compressPdf.aspx';
+       }
+      </script>
+      <%-- Compress PDF--%>
+
+       <%-- PDF to Word--%>
+      <div class="card" onclick="redirectToPdfToWord()">
+      <div class="icon">📝</div>
+      <h3>PDF to Word</h3>
+      <p>Easily convert your PDF files into easy-to-edit DOC and DOCX documents. The converted WORD document is almost 100% accurate.</p>
+      </div>
+
+      <script>
+      function redirectToPdfToWord() {
+        window.location.href = 'pdfToWord.aspx';
+       }
+      </script>
+       <%-- PDF to Word--%>
+
+
+       <%--PDF to PowerPoint--%>
+       <div class="card" onclick="redirectToPpt()">
+       <div class="icon">📊</div>
+       <h3>PDF to PowerPoint</h3>
+       <p>Turn your PDF files into easy-to-edit PPT and PPTX slideshows.</p>
+       </div>
+
+       <script>
+       function redirectToPpt() {
+       window.location.href = 'pdfToPpt.aspx';  // Redirects to the new page
+        }
+       </script>
+       <%--PDF to PowerPoint--%>
+
+       <%-- PDF to Excel--%>
+       <div class="card" onclick="redirectToExcel()">
+       <div class="icon">📈</div>
+       <h3>PDF to Excel</h3>
+        <p>Pull data straight from PDFs into Excel spreadsheets in a few short seconds.</p>
+       </div>
+
+       <script>
+       function redirectToExcel() {
+        window.location.href = 'pdfToExcel.aspx';  // Redirects to the new page
+        }
+       </script>
+      <%-- PDF to Excel--%>
+
+      <%--Word to PDF--%>
+      <div class="card" onclick="redirectToWordToPdf()">
+      <div class="icon">📄</div>
+      <h3>Word to PDF</h3>
+      <p>Make DOC and DOCX files easy to read by converting them to PDF.</p>
+      </div>
+
+      <script>
+      function redirectToWordToPdf() {
+       window.location.href = 'wordToPdf.aspx';
+       }
+      </script>
+      <%--Word to PDF--%>
+      
+    <%--PowerPoint to PDF--%>  <%-- not working--%>
+    <div class="card" onclick="redirectToPptToPdf()">
+    <div class="icon">📊</div>
+    <h3>PowerPoint to PDF</h3>
+    <p>Make PPT and PPTX slideshows easy to view by converting them to PDF.</p>
+    </div>
+
+    <script>
+    function redirectToPptToPdf() {
+        window.location.href = 'pptToPdf.aspx';
+     }
+    </script>
+    <%--PowerPoint to PDF--%>
+
+      <%--  Excel to PDF   --%> 
+     <div class="card" onclick="redirectToPage()">
+     <div class="icon">📉</div>
+     <h3>Excel to PDF</h3>
+     <p>Make Excel spreadsheets easy to read by converting them to PDF.</p>
+     </div>
+
+     <script>
+     function redirectToPage() {
+        window.location.href = "excelToPdf.aspx"; // Replace with your target page
+      }
+     </script>
+      <%--  Excel to PDF   --%> 
+
+    <%--    Edit PDF--%> <%--not working--%>
+            <!-- Clickable Card -->
+        <div class="card" onclick="redirectToEditPdf()">
+            <div class="icon">✍️</div>
+            <h3>Edit PDF <span class="new">New</span></h3>
+            <p>Add text, images, shapes, or freehand annotations to a PDF document. Edit the size, font, and color of the added content.</p>
+        </div>
+        </div>
+
+       <script>
+        function redirectToEditPdf() {
+            window.location.href = "editPdf.aspx"; // Redirects to the WebForms page
+        }
+       </script>
+       <%--    Edit PDF--%>  
+
+          <%-- PDF to JPG--%>
+          <div class="card" onclick="redirectToPdfToJpg()">
+         <div class="icon">🖼️</div>
+         <h3>PDF to JPG</h3>
+         <p>Convert each PDF page into a JPG or extract all images contained in a PDF.</p>
+        </div>
+        <script>
+        function redirectToPdfToJpg() {
+         window.location.href = "pdfToJpg.aspx";
+        }
+       </script>
+        <%-- PDF to JPG--%>
+
+
+            <div class="card">
+                <div class="icon">🖼️</div>
+                <h3>JPG to PDF</h3>
+                <p>Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</p>
+            </div>
+
+            <!-- New Cards from Second Screenshot -->
+            <div class="card">
+                <div class="icon">✍️</div>
+                <h3>Sign PDF</h3>
+                <p>Sign PDF or request electronic signatures from others.</p>
+            </div>
+            <div class="card">
+                <div class="icon">💧</div>
+                <h3>Watermark</h3>
+                <p>Stamp an image or text over your PDF in seconds. Choose the typography, transparency, and position.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🔄</div>
+                <h3>Rotate PDF</h3>
+                <p>Rotate your PDF files the way you need them. You can even rotate multiple PDFs at once.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🌐</div>
+                <h3>HTML to PDF</h3>
+                <p>Copy the URL of the page you want and convert it to PDF with a click.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🔓</div>
+                <h3>Unlock PDF</h3>
+                <p>Remove password security giving you the freedom as you use.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🔒</div>
+                <h3>Protect PDF</h3>
+                <p>Encrypt PDF files with a password to prevent unauthorized access to documents.</p>
+            </div>
+            <div class="card">
+                <div class="icon">📑</div>
+                <h3>Organize PDF</h3>
+                <p>Sort pages of your PDF file however you like. Delete or add PDF pages to your document at your convenience.</p>
+            </div>
+            <div class="card">
+                <div class="icon">📦</div>
+                <h3>PDF to PDF/A</h3>
+                <p>Transform your PDF to PDF/A, the ISO-standardized version of PDF for long-term archiving. Your PDF will preserve formatting when accessed in the future.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🛠️</div>
+                <h3>Repair PDF</h3>
+                <p>Repair a damaged PDF and recover data from corrupt file. Fix PDF files with our Repair tool.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🔢</div>
+                <h3>Page numbers</h3>
+                <p>Add page numbers to PDF files with ease. Choose your positions, dimensions, typography.</p>
+            </div>
+            <div class="card">
+                <div class="icon">📷</div>
+                <h3>Scan to PDF</h3>
+                <p>Capture documents scans from your mobile device and send them instantly to the browser.</p>
+            </div>
+            <div class="card">
+                <div class="icon">🔍</div>
+                <h3>OCR PDF</h3>
+                <p>Easily convert scanned PDF into searchable and selectable documents.</p>
+            </div>
+            <div class="card">
+                <div class="icon">📄</div>
+                <h3>Compare PDF <span class="new">New</span></h3>
+                <p>Show a side-by-side document comparison and easily spot the differences between two files.</p>
+            </div>
+            <div class="card">
+                <div class="icon">✂️</div>
+                <h3>Redact PDF <span class="new">New</span></h3>
+                <p>Redact text and graphics to permanently remove sensitive information from a PDF.</p>
+            </div>
+        </div>
+    </div>
+</asp:Content>
